@@ -19,14 +19,12 @@ const personschema =mongoose.Schema({
        type:Date,
        require:true,
     },
-    pesontasks:{
-         type:[string],
-    },
+    
     
         
     
 },
 {collection :"persons"}
 );
-const personsmodel =mongoose.model("person",userschema)
+const personsmodel =mongoose.model("person",personschema)
 module.exports=personsmodel;

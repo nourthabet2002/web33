@@ -16,16 +16,35 @@ mongoose.connect(process.env.DB_URL,{ useNewUrlParser: true, useUnifiedTopology:
 )
 
 
-app.use(express.json());
-app.use('/workers',use(personrouter) 
+// app.use(express.json());
+// app.use('/workers',use(personrouter) 
   
   
   
   
-);
-app.get('/tasks',use(tasskrouter) 
+// );
+// app.get('/tasks',use(tasskrouter) 
   
   
   
   
-);
+//  );
+//  
+app.post("/add",async(req,res)=>{
+    
+    
+  //     try{var response = await personmodel.find({name : "%sa%"})
+  //     res.json(response);
+  // }catch (error){
+  //     console.log()
+  // }
+      let newperson = personsmodel({
+          name:"nour",
+          salary:2000,
+          position:jjjjj,
+          joinedDate:"02/10/2023"
+  }); var response = newperson.save();
+  
+      res.json(response);
+   
+  })
