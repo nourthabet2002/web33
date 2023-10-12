@@ -1,4 +1,5 @@
 const mongoose= require('mongoose')
+const taskschema = require('./tasks.js')
 const personschema =mongoose.Schema({
     
     name:{
@@ -18,6 +19,9 @@ const personschema =mongoose.Schema({
     joinedDate:{
        type:Date,
        require:true,
+    },
+    tasks:{
+        type:[taskschema]
     },
     
     

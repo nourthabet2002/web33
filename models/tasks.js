@@ -12,14 +12,14 @@ const taskschema =mongoose.Schema({
     },
     deadline:{
         type:Date,
-        require:true
+        require:true,
     },
-   
     
-        
-    
-},
+ },
 {collection :"tasks"}
 );
 const tasksmodel =mongoose.model("tasks",taskschema)
-module.exports=tasksmodel;
+module.export = {
+    taskschema,
+    tasksmodel,
+}
