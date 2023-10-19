@@ -18,7 +18,7 @@ const personschema =mongoose.Schema({
     },
     joinedDate:{
        type:Date,
-       require:true,
+       default:Date.now(),
     },
     tasks:{
         type:[taskschema]
