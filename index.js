@@ -3,15 +3,16 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 const personsmodel = require("./models/person");
 const bodyParser = require("body-parser");
-const cors = require('cors')
+const cors = require("cors");
+const holidaymodel = require("./models/holiday");
+const { taskModel } = require("./models/tasks");
 
 const PORT = 3005;
 
 const app = express();
-app.use(bodyParser.json())
-app.use(express.json())
-app.use(cors())
-
+app.use(bodyParser.json());
+app.use(express.json());
+app.use(cors());
 
 mongoose
   .connect(process.env.DB_URL, {
@@ -75,6 +76,15 @@ app.get("/persons", async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+app.get("/tasks", async (req, res) => {
+  try {
+    const tasks = await taskModel.find();
+    console.log(tasks);
+    res.json(tasks);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
 // app.post("/persons", async (req, res) => {
 //   let newperson = personsmodel({
 //     name: "mariam",
@@ -85,15 +95,15 @@ app.get("/persons", async (req, res) => {
 //   var response = await newperson.save();
 //   res.json(response);
 // });
-app.post("/add", async (req, res) => {
+app.post("/tasks/add", async (req, res) => {
   //     try{var response = await personmodel.find({name : "%sa%"})
   //     res.json(response);
   // }catch (error){
   //     console.log()
   // }
   console.log(req.body);
-  const { name, descripition, deadline} = req.body;
-  let newtask = tasksmodel({
+  const { name, descripition, deadline } = req.body;
+  let newtask = taskModel({
     name: name,
     descripition: descripition,
     deadline: deadline,
@@ -102,23 +112,38 @@ app.post("/add", async (req, res) => {
 
   res.json(response);
 });
-app.post("/add", async (req, res) => {
+app.post("/holiday/add", async (req, res) => {
   //     try{var response = await personmodel.find({name : "%sa%"})
   //     res.json(response);
   // }catch (error){
   //     console.log()
   // }
   console.log(req.body);
-  const { FirstName, LastName, position,numberofdays } = req.body;
-  let newperson = personsmodel({
-    FirstNamename: FirstName,
-    LastName:LastName,
-    position: position,
-    numberofdays:numberofdays,
+  const { personId, numberOfdays } = req.body;
+  const holidayDaysNumber = parseInt(numberOfdays);
+  const maxHolidays = 25;
+  let holdaysSum = 0;
 
-  });
-  var response = await newholiday.save();
+  try {
+    const userHolidays = await holidaymodel.find({ personId: personId });
+    userHolidays.forEach((element) => {
+      holdaysSum += parseInt(element.numberofdays);
+    });
 
-  res.json(response);
+    if (holdaysSum < maxHolidays && (holdaysSum +holidayDaysNumber )< maxHolidays  ) {
+      let newholiday = holidaymodel({
+        personId: personId,
+        numberofdays: holidayDaysNumber,
+      });
+      var response = await newholiday.save();
+      res.json({ message: "Holiday added successfully" });
+    } else {
+      res.json({
+        message: `Sorry, you can't go on holiday you already had ${holdaysSum}`,
+      });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 });
-
+//  db.holidays.find({"numberofdays":{$lt:20}})

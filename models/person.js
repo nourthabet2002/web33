@@ -20,9 +20,9 @@ const personschema =mongoose.Schema({
        type:Date,
        default:Date.now(),
     },
-    tasks:{
-        type:[taskschema]
-    },
+    // tasks:{
+    //     type:[taskschema]
+    // },
     
     
         

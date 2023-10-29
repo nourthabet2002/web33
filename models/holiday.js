@@ -1,24 +1,17 @@
 const mongoose= require('mongoose')
-const holidayschema = require('./holiday.js')
-const holidayschema =mongoose.Schema({
-    
-    FirstName:{
-        type:String,
-        require:true
-    },
-    LastName:{
-        type:string,
-        require:true,
-        
-    },
-    position:{
-        type:String,
-        
 
-    },
+const holidayschema =mongoose.Schema({
+
+    personId : {
+        type : mongoose.Schema.Types.ObjectId,
+        ref : 'person'
+
+    }
+    ,
     
+ 
     numberofdays:{
-        type:number,
+        type:Number,
         require:true,
     },
     
@@ -26,7 +19,7 @@ const holidayschema =mongoose.Schema({
         
     
 },
-{collection :"persons"}
+{collection :"holidays"}
 );
 const holidaymodel =mongoose.model("holiday",holidayschema)
 module.exports=holidaymodel;
